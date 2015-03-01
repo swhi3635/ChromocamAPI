@@ -1,5 +1,5 @@
 /*
- * File: server.js
+ * File: files.js
  * Authors: Sam Whitney, Aleks Sverdlovs
  * Project: Chromocam web API
  */

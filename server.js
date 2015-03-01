@@ -1,4 +1,4 @@
-/* 
+/*
  * File: server.js
  * Authors: Sam Whitney, Aleks Sverdlovs
  * Project: Chromocam web API
@@ -13,8 +13,8 @@ var fs = require('fs');
 
 // HTTPS certificates
 var options = {
-	key: fs.readFileSync('/home/pi/node/keys/server.key'),
-	cert: fs.readFileSync('/home/pi/node/keys/server.crt')
+	key: fs.readFileSync('./keys/server.key'),
+	cert: fs.readFileSync('./keys/server.crt')
 }
 
 // Set routes

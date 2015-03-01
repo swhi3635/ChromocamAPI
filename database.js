@@ -1,5 +1,5 @@
 /*
- * File: server.js
+ * File: database.js
  * Authors: Sam Whitney, Aleks Sverdlovs
  * Project: Chromocam web API
  */
@@ -17,8 +17,6 @@ var pool = mysql.createPool({
   password: '248QsMtQdgtm',
   database: 'chromocam' */
 });
-
-console.log(process.env.MYSQL_USER);
 
 // Query: getFile
 // Grabs file metadata for given fileId
