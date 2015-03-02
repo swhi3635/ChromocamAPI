@@ -20,6 +20,9 @@ var options = {
 // Set routes
 app.get('/files', files.findAll);
 app.get('/files/:id', files.findById);
+app.get('/', function(req, res) {
+  res.send('Hello world!');
+});
 
 // Start HTTP server
 https.createServer(options, app).listen(3000)
