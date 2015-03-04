@@ -4,10 +4,9 @@
  * Project: Chromocam web API
  */
 
-var express = require('express'),
-    files = require('./routes/files')
-
-var app = express();
+// Load modules
+var express = require('express');
+var bodyParser = require('body-parser');
 var https = require('https');
 var fs = require('fs');
 
@@ -17,9 +16,21 @@ var options = {
 	cert: fs.readFileSync('./keys/server.crt')
 }
 
+// Set up app
+var app = express();
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
+// Grab route scripts
+var files = require('./routes/files');
+var devices = require('./routes/devices');
+
 // Set routes
-app.get('/files', files.findAll);
-app.get('/files/:id', files.findById);
+app.get('/files', files.findAllFiles);
+app.get('/files/:id', files.findFileById);
+app.post('/devices/register', devices.registerDevice);
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });

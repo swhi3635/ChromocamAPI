@@ -6,6 +6,7 @@
 
 var mysql = require('mysql');
 
+// Initiate MySQL connection pool
 var pool = mysql.createPool({
   connectionLimit: 10,
   host: process.env.MYSQL_HOST,
@@ -20,25 +21,9 @@ exports.getFile = function(fileId, callback){
 
   // SQL statement
   var sql = 'SELECT * FROM event WHERE event_id = ?';
+  var args = [fileId];
 
-  // Claim connection from pool
-  pool.getConnection(function(err, connection){
-    if(err){ console.error(err); callback(true); return; }
-
-    console.log('connected with id ' + connection.threadId);
-
-    // Execute query
-    connection.query(sql, [fileId], function(err, results){
-      if(err){ console.error(err); callback(true); return; }
-
-      // Release connection back to pool
-      connection.release();
-      console.log('connection released.');
-      callback(false, results);
-    });
-
-  });
-
+  selectRows(sql, args, callback);
 
 };
 
@@ -48,7 +33,16 @@ exports.getFileList = function(callback){
 
   // SQL statement
   var sql = 'SELECT * FROM event';
+  var args = [];
 
+  selectRows(sql, args, callback);
+
+};
+
+
+// Function: selectRows
+// Returns rows after running specified SQL query
+function selectRows(sql, args, callback){
   // Claim connection from pool
   pool.getConnection(function(err, connection){
     if(err){ console.error(err); callback(true); return; }
@@ -56,7 +50,7 @@ exports.getFileList = function(callback){
     console.log('connected with id ' + connection.threadId);
 
     // Execute query
-    connection.query(sql, function(err, results){
+    connection.query(sql, args, function(err, results){
       if(err){ console.error(err); callback(true); return; }
 
       // Release connection back to pool
@@ -66,6 +60,4 @@ exports.getFileList = function(callback){
     });
 
   });
-
-
 };

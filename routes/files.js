@@ -7,9 +7,9 @@
 var db = require('../database');
 var fs = require('fs');
 
-// FunctionL findAll
+// FunctionL findAllFiles
 // Get metadata for all files, returns JSON objects containing metadata
-exports.findAll = function(req, res) {
+exports.findAllFiles = function(req, res) {
 
     // Get metadata for all files from database
     db.getFileList(function(err, results){
@@ -20,9 +20,9 @@ exports.findAll = function(req, res) {
     });
 };
 
-// Function: findById
+// Function: findFileById
 // Get file metadata for given fileId, return corresponding jpeg image
-exports.findById = function(req, res) {
+exports.findFileById = function(req, res) {
 
     //Get file metadata results from database query
     db.getFile(req.params.id, function(err, results){
