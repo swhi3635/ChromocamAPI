@@ -1,6 +1,8 @@
 # ChromocamAPI
 RESTful API for Chromocam project
 
+This Node.JS API will be used with our [Android application](https://github.com/ZhangC1459/Chromocam) to control a basic home security system.
+
 ##Running the API
 
 You will need to set some environment variables when executing this Node.JS application:
