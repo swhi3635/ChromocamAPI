@@ -39,6 +39,30 @@ exports.getFileList = function(callback){
 
 };
 
+// Query: addDevice
+// Insert new device in device table
+exports.addDevice = function(deviceHash, callback){
+
+  //SQL statement
+  var sql = 'INSERT INTO device SET ?';
+  var args = [{token:deviceHash,enabled:1}];
+
+  selectRows(sql, args, callback);
+
+};
+
+// Query: getDeviceInfo
+// Grabs device information for given id from device table
+exports.getDeviceInfo = function(deviceId, callback){
+
+  //SQL statement
+  var sql = 'SELECT * FROM device WHERE device_id = ?';
+  var args = [deviceId];
+
+  selectRows(sql, args, callback);
+
+};
+
 
 // Function: selectRows
 // Returns rows after running specified SQL query

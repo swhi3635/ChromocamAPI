@@ -12,8 +12,7 @@ var crypto = require('crypto');
 /* TO DO
  * - registerDevice()
  *    - make sure incoming json object is valid (i.e. not malformed)
- *    - add device to database
- *    - return token (unique hash) for device to use for future API calls
+ *      - use regex to ensure proper format?
  * - authenticateDevice()
  */
 
@@ -24,6 +23,14 @@ function getMasterHash() {
   var masterPassword = process.env.CC_PASS;
   shasum.update(masterPassword);
   return shasum.digest('hex');
+};
+
+// Function: generateDeviceHash
+// Generates new hash to be used as a token for device to use with future API calls
+function generateDeviceHash() {
+  var shasum = crypto.createHash('sha1');
+  shasum.update( process.hrtime() + getMasterHash());
+  return shasum.digest('hex')
 };
 
 // Function: registerDevice
@@ -37,9 +44,27 @@ exports.registerDevice = function(req,res) {
   //console.log("user-provided master pass hash: " + req.body[0]['hashedPass']);
   console.log("actual master pass hash: " + getMasterHash());
 
-  //compare user-submitted hash to
+  // Compare user-submitted password hash to master password hash
   if (userHash == getMasterHash()){
-    res.send('Authorized')
+
+    // Generate device token
+    var deviceHash = generateDeviceHash();
+    console.log("generated device token: " + deviceHash);
+
+    // Add device to database
+    db.addDevice(deviceHash, function(err, results){
+      if(err) { res.status(500).send("Server Error"); return; }
+
+      // Get device info that was inserted and return it
+      db.getDeviceInfo(results.insertId, function(err, results){
+        if(err) { res.status(500).send("Server Error"); return; }
+
+        // Return device info
+        res.send(results);
+
+      });
+
+    });
   } else {
     res.status(403).send("Forbidden");
   }
