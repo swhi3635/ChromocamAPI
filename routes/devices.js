@@ -13,6 +13,7 @@ var crypto = require('crypto');
  * - registerDevice()
  *    - make sure incoming json object is valid (i.e. not malformed)
  * - authenticateDevice()
+ * - functions to enable/disable notifications
  */
 
 // Function: getMasterHash
@@ -32,10 +33,29 @@ function generateDeviceHash() {
   return shasum.digest('hex')
 };
 
+// Function: authenticateDevice
+// Take device token and check if it exists in the database.
+// Return true if token exists
+function authenticateDevice(deviceToken) {
+
+  db.isDeviceRegistered(deviceToken, function(err, results){
+    if(err) { console.error(err); return; }
+
+    // Check if results are empty
+    if(Object.keys(results).length) {
+      return true;
+    } else
+      return false;
+  });
+
+};
+
 // Function: registerDevice
 // Take in hashed password (JSON object), check against system's hashed master password
 // Return unique device token to use for future API calls
 exports.registerDevice = function(req,res) {
+
+
   var userHash = req.body['hashedPass'];
 
   // Compare user-submitted password hash to master password hash
@@ -62,6 +82,4 @@ exports.registerDevice = function(req,res) {
   } else {
     res.status(403).send("Forbidden");
   }
-
-
 };

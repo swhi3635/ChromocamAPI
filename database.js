@@ -51,6 +51,18 @@ exports.addDevice = function(deviceHash, callback){
 
 };
 
+// Query: isDeviceRegistered
+// Look for matching device tokens
+exports.isDeviceRegistered = function(deviceToken, callback){
+
+  //SQL statement
+  var sql = 'SELECT * FROM device WHERE token = ?';
+  var args = [deviceToken];
+
+  selectRows(sql, args, callback);
+
+}
+
 // Query: getDeviceInfo
 // Grabs device information for given id from device table
 exports.getDeviceInfo = function(deviceId, callback){
