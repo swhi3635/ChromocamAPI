@@ -12,7 +12,6 @@ var crypto = require('crypto');
 /* TO DO
  * - registerDevice()
  *    - make sure incoming json object is valid (i.e. not malformed)
- *      - use regex to ensure proper format?
  * - authenticateDevice()
  */
 
@@ -38,11 +37,6 @@ function generateDeviceHash() {
 // Return unique device token to use for future API calls
 exports.registerDevice = function(req,res) {
   var userHash = req.body['hashedPass'];
-
-  console.log(userHash);
-
-  //console.log("user-provided master pass hash: " + req.body[0]['hashedPass']);
-  console.log("actual master pass hash: " + getMasterHash());
 
   // Compare user-submitted password hash to master password hash
   if (userHash == getMasterHash()){
