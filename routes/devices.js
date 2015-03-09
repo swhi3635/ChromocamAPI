@@ -5,16 +5,8 @@
  */
 
 var db = require('../database');
+var auth = require('../auth');
 var crypto = require('crypto');
-
-
-
-/* TO DO
- * - registerDevice()
- *    - make sure incoming json object is valid (i.e. not malformed)
- * - authenticateDevice()
- * - functions to enable/disable notifications
- */
 
 // Function: getMasterHash
 // Get hash of user-defined master password
@@ -33,28 +25,10 @@ function generateDeviceHash() {
   return shasum.digest('hex')
 };
 
-// Function: authenticateDevice
-// Take device token and check if it exists in the database.
-// Return true if token exists
-function authenticateDevice(deviceToken) {
-
-  db.isDeviceRegistered(deviceToken, function(err, results){
-    if(err) { console.error(err); return; }
-
-    // Check if results are empty
-    if(Object.keys(results).length) {
-      return true;
-    } else
-      return false;
-  });
-
-};
-
 // Function: registerDevice
 // Take in hashed password (JSON object), check against system's hashed master password
 // Return unique device token to use for future API calls
 exports.registerDevice = function(req,res) {
-
 
   var userHash = req.body['hashedPass'];
 
@@ -74,7 +48,7 @@ exports.registerDevice = function(req,res) {
         if(err) { res.status(500).send("Server Error"); return; }
 
         // Return device info
-        res.send(results);
+        res.json(results);
 
       });
 
@@ -82,4 +56,54 @@ exports.registerDevice = function(req,res) {
   } else {
     res.status(403).send("Forbidden");
   }
+};
+
+// Function: getNotificationFlag
+// Check if device has notifications enabled
+exports.getNotificationFlag = function(req,res) {
+
+  // Get device credentials
+  var deviceToken = req.body['token'];
+  var deviceId = req.body['id'];
+
+  // Authenticate device
+  auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
+    // If credentials are invalid, send 403
+    if(!results) { res.status(403).send("Forbidden"); return; }
+
+    // Get 'enabled' flag from database
+    db.getDeviceInfo(deviceId, function(err, results){
+      if(err) { res.status(500).send("Server Error"); return; }
+
+      // Send response - flag: true or false
+      res.json(results[0]['enabled']);
+
+    });
+  });
+
+};
+
+// Function: setNotificationFlag
+// Enable/disable notifications on selected device
+exports.setNotificationFlag = function(req, res) {
+
+  // Get device credentials
+  var deviceToken = req.body['token'];
+  var deviceId = req.body['id'];
+  var flag = req.body['flag'];
+
+  // Authenticate device
+  auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
+    // If credentials are invalid, send 403
+    if(!results) { res.status(403).send("Forbidden"); return; }
+
+    // Set 'enabled' flag in db
+    db.setNotifications(deviceId, flag, function(err, results){
+      if(err) { res.status(500).send("Server Error"); return; }
+      if(results['affectedRows'])
+      res.send(results);
+
+    });
+  });
+
 };

@@ -53,11 +53,11 @@ exports.addDevice = function(deviceHash, callback){
 
 // Query: isDeviceRegistered
 // Look for matching device tokens
-exports.isDeviceRegistered = function(deviceToken, callback){
+exports.isDeviceRegistered = function(deviceId, deviceToken, callback){
 
   //SQL statement
-  var sql = 'SELECT * FROM device WHERE token = ?';
-  var args = [deviceToken];
+  var sql = 'SELECT * FROM device WHERE device_id = ? AND token = ?';
+  var args = [deviceId,deviceToken];
 
   selectRows(sql, args, callback);
 
@@ -70,6 +70,18 @@ exports.getDeviceInfo = function(deviceId, callback){
   //SQL statement
   var sql = 'SELECT * FROM device WHERE device_id = ?';
   var args = [deviceId];
+
+  selectRows(sql, args, callback);
+
+};
+
+// Query: setNotificaitons
+// Sets 'enabled' flag in device table for specific device id
+exports.setNotifications = function(deviceId, flag, callback) {
+
+  //SQL statement
+  var sql = 'UPDATE device SET enabled = ? WHERE device_id = ?';
+  var args = [flag,deviceId];
 
   selectRows(sql, args, callback);
 

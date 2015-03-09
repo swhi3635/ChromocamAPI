@@ -32,7 +32,8 @@ var devices = require('./routes/devices');
 app.get('/files', files.findAllFiles);
 app.get('/files/:id', files.findFileById);
 app.post('/devices/register', devices.registerDevice);
-app.post('/devices/checkAuth', devices.checkAuth);
+app.post('/devices/notifications/get', devices.getNotificationFlag);
+app.post('/devices/notifications/set', devices.setNotificationFlag);
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });
