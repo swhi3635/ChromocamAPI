@@ -18,3 +18,45 @@ Here's a sample startup script:
 #!/bin/bash
 CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER='dbuser' MYSQL_PASS='password' node server
 ```
+##API Documentation
+
+###GetFileList
+
+- **Method:** GET
+- **Input:** None
+- **Location:** /files
+- **Output:** JSON array of objects containing metadata for each event
+
+###GetFile
+- **Method:** GET
+- **Input:** None
+- **Location:** /files/[id]
+- **Output:** JPEG image corresponding to [id]
+
+###RegisterDevice
+- **Method:** POST
+- **Location:** /devices/register
+- **Input:** JSON Object
+
+  `{"hashedPass":"3da541559918a808c2402bba5012f6c60b27661c"}`
+- **Output:** JSON Object
+
+  `[{"device_id":23,"enabled":1,"token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}]`
+  
+###GetNotificationFlag
+- **Method:** POST
+- **Location:** /devices/notifications/get
+- **Input:** JSON Object
+
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
+- **Output:** 1 or 0 (enabled or disabled)
+
+###SetNotificationFlag
+- **Method:** POST
+- **Location:** /devices/notifications/set
+- **Input:** JSON Object
+
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","enabled":"1"}`
+- **Output:** JSON Object
+
+  `{"affectedRows":"1"}`
