@@ -7,7 +7,7 @@
 var db = require('../database');
 var fs = require('fs');
 
-// FunctionL findAllFiles
+// Function findAllFiles
 // Get metadata for all files, returns JSON objects containing metadata
 exports.findAllFiles = function(req, res) {
 

@@ -32,7 +32,7 @@ exports.getFile = function(fileId, callback){
 exports.getFileList = function(callback){
 
   // SQL statement
-  var sql = 'SELECT * FROM event';
+  var sql = 'SELECT event_id,time_stamp,file_type,archive FROM event';
   var args = [];
 
   selectRows(sql, args, callback);
@@ -87,6 +87,17 @@ exports.setNotifications = function(deviceId, flag, callback) {
 
 };
 
+// Query: setArchive
+// Sets 'archive' flag in device table for specific device id
+exports.setArchive = function(deviceId, flag, callback) {
+
+  //SQL statement
+  var sql = 'UPDATE event SET archive = ? WHERE event_id = ?';
+  var args = [flag,deviceId];
+
+  selectRows(sql, args, callback);
+
+};
 
 // Function: selectRows
 // Returns rows after running specified SQL query
