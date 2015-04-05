@@ -31,6 +31,7 @@ var devices = require('./routes/devices');
 // Set routes
 app.get('/files', files.findAllFiles);
 app.get('/files/:id', files.findFileById);
+app.post('/files/:id/setArchive', files.setArchiveFlag);
 app.post('/devices/register', devices.registerDevice);
 app.post('/devices/notifications/get', devices.getNotificationFlag);
 app.post('/devices/notifications/set', devices.setNotificationFlag);

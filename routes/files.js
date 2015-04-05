@@ -6,6 +6,7 @@
 
 var db = require('../database');
 var fs = require('fs');
+var auth = require('../auth');
 
 // Function findAllFiles
 // Get metadata for all files, returns JSON objects containing metadata
@@ -54,4 +55,29 @@ exports.findFileById = function(req, res) {
       res.end(img, 'binary');
 
     });
+};
+
+exports.setArchiveFlag = function(req,res) {
+
+    // Get device credentials
+    var deviceToken = req.body['token'];
+    var deviceId = req.body['id'];
+    var eventId = req.params.id;
+    var flag = req.body['archive'];
+
+    // Authenticate device
+    auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
+      // If credentials are invalid, send 403
+      if(!results) { res.status(403).send("Forbidden"); return; }
+
+      // Set 'enabled' flag in db
+      db.setArchive(eventId, flag, function(err, results){
+        if(err) { res.status(500).send("Server Error"); return; }
+        if(results['affectedRows'])
+        res.send(results);
+
+      });
+    });
+
+
 };
