@@ -57,6 +57,8 @@ exports.findFileById = function(req, res) {
     });
 };
 
+// Function: setArchiveFlag
+// Enable/disable archiving on specified file id
 exports.setArchiveFlag = function(req,res) {
 
     // Get device credentials
@@ -70,11 +72,12 @@ exports.setArchiveFlag = function(req,res) {
       // If credentials are invalid, send 403
       if(!results) { res.status(403).send("Forbidden"); return; }
 
-      // Set 'enabled' flag in db
+      // Set 'archive' flag in db
       db.setArchive(eventId, flag, function(err, results){
         if(err) { res.status(500).send("Server Error"); return; }
-        if(results['affectedRows'])
-        res.send(results['affectedRows']);
+
+        var resp = { "affectedRows" : results['affectedRows'] }
+        res.send(resp);
 
       });
     });

@@ -100,8 +100,9 @@ exports.setNotificationFlag = function(req, res) {
     // Set 'enabled' flag in db
     db.setNotifications(deviceId, flag, function(err, results){
       if(err) { res.status(500).send("Server Error"); return; }
-      if(results['affectedRows'])
-      res.send(results['affectedRows']);
+
+      var resp = { "affectedRows" : results['affectedRows'] }
+      res.send(resp);
 
     });
   });
