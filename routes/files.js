@@ -74,7 +74,7 @@ exports.setArchiveFlag = function(req,res) {
       db.setArchive(eventId, flag, function(err, results){
         if(err) { res.status(500).send("Server Error"); return; }
         if(results['affectedRows'])
-        res.send(results);
+        res.send(results['affectedRows']);
 
       });
     });

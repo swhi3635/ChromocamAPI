@@ -101,7 +101,7 @@ exports.setNotificationFlag = function(req, res) {
     db.setNotifications(deviceId, flag, function(err, results){
       if(err) { res.status(500).send("Server Error"); return; }
       if(results['affectedRows'])
-      res.send(results);
+      res.send(results['affectedRows']);
 
     });
   });
