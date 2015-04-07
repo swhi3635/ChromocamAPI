@@ -145,12 +145,38 @@ exports.motionRestart = function(req, res) {
 
 };
 
+// Function: takeSnapshot
+// Takes a snapshot of the current camera view
+exports.takeSnapshot = function(req, res) {
+
+  // set request parameters
+  var options = {baseUrl: motionURL, uri: "/action/snapshot", method: "GET"};
+
+  // make request
+  motionRequest(req, options, function(err, body) {
+    if(err) { res.status(500).send("Server Error"); return; }
+
+    // default response is false (detection not active)
+    var resp = { "success" : false };
+
+    // detection status is active, set response accordingly
+    if(body.indexOf("Done") > -1) {
+      resp.success = true;
+    }
+
+    // send response
+    res.json(resp);
+
+  });
+
+};
+
 // Function: getConfig
 // Gets values for specified config options
 exports.getConfig = function(req, res) {
 
   // query = config option you want to get the value of
-  var query = req.body.query;
+  var query = req.body.option;
 
   // config options that user is allow to check
   var allowedQueries = [ "width","height","framerate","threshold","area_detect"];
@@ -171,8 +197,6 @@ exports.getConfig = function(req, res) {
   motionRequest(req, options, function(err, body) {
     if(err) { res.status(500).send("Server Error"); return; }
 
-    var resp = {};
-
     // check motion's response - make sure
     if(body.indexOf("Done") == -1) {
       res.status(500).send("Server error");
@@ -186,7 +210,58 @@ exports.getConfig = function(req, res) {
     var key = body.substring(0,equals);
     var value = body.substring(equals + 3, done);
 
-    resp[key] = value;
+    var resp = {"option": key, "value": value};
+
+    // send response
+    res.json(resp);
+
+  });
+
+};
+
+// Function: setConfig
+// Sets values for specified config options
+exports.setConfig = function(req, res) {
+
+  // query = config option you want to get the value of
+  var query = req.body.option;
+  var queryValue = req.body.value;
+
+  // make sure value is numeric
+  var reg = new RegExp(/^[0-9]*$/);
+
+  if(!reg.test(queryValue)){
+    res.status(400).send("Bad request");
+    return;
+  }
+
+  // config options that user is allow to check
+  var allowedQueries = [ "width","height","framerate","threshold","area_detect"];
+
+  // make sure query is allowed
+  if(allowedQueries.indexOf(query) == -1){
+    res.status(400).send("Bad request");
+    return;
+  }
+
+  // query to be included in GET request
+  var queryString = {};
+  queryString[query] = queryValue;
+
+  // set request parameters
+  var options = {baseUrl: motionURL, uri: "/config/set", qs: queryString, method: "GET"};
+
+  // make request
+  motionRequest(req, options, function(err, body) {
+    if(err) { res.status(500).send("Server Error"); return; }
+
+    // response
+    var resp = {"success" : false};
+
+    // if option was successfully changed
+    if(body.indexOf("Done") > -1) {
+      resp.success = true;
+    }
 
     // send response
     res.json(resp);

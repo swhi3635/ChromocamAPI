@@ -39,6 +39,18 @@ exports.getFileList = function(callback){
 
 };
 
+// Query: getLatestSnapshot
+// Grabs file metadata for given fileId
+exports.getLatestSnapshot = function(callback){
+
+  // SQL statement
+  var sql = 'SELECT event_id FROM event WHERE file_type=2 ORDER BY event_id DESC LIMIT 1';
+  var args = [];
+
+  selectRows(sql, args, callback);
+
+};
+
 // Query: addDevice
 // Insert new device in device table
 exports.addDevice = function(deviceHash, callback){
