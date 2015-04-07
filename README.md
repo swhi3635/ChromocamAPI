@@ -20,20 +20,22 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 ```
 ##API Documentation
 
-###GetFileList
+###File Methods
+
+####GetFileList
 
 - **Method:** GET
 - **Input:** None
 - **Location:** /files
 - **Output:** JSON array of objects containing metadata for each event
 
-###GetFile
+####GetFile
 - **Method:** GET
 - **Input:** None
 - **Location:** /files/[id]
 - **Output:** JPEG image corresponding to [id]
 
-###SetArchiveFlag
+####SetArchiveFlag
 - **Method:** POST
 - **Location:** /files/[id]/setArchive
 - **Input:** JSON Object
@@ -43,7 +45,9 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
   `{"affectedRows":"1"}`
 
-###RegisterDevice
+###Device Methods
+
+####RegisterDevice
 - **Method:** POST
 - **Location:** /devices/register
 - **Input:** JSON Object
@@ -53,7 +57,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
   `[{"device_id":23,"enabled":1,"token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}]`
 
-###GetNotificationFlag
+####GetNotificationFlag
 - **Method:** POST
 - **Location:** /devices/notifications/get
 - **Input:** JSON Object
@@ -61,7 +65,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
 - **Output:** 1 or 0 (enabled or disabled)
 
-###SetNotificationFlag
+####SetNotificationFlag
 - **Method:** POST
 - **Location:** /devices/notifications/set
 - **Input:** JSON Object
@@ -70,3 +74,15 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 - **Output:** JSON Object
 
   `{"affectedRows":"1"}`
+
+###Motion Configuration Methods
+
+####GetDetectionStatus
+- **Method:** POST
+- **Location:** /motion/detection/getStatus
+- **Input:** JSON Object
+
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
+- **Output:** JSON Object
+
+  `{"status":"1"}`
