@@ -40,6 +40,8 @@ app.post('/devices/notifications/get', devices.getNotificationFlag);
 app.post('/devices/notifications/set', devices.setNotificationFlag);
 app.post('/motion/detection/getStatus', motion.getDetectionStatus);
 app.post('/motion/detection/setStatus', motion.setDetectionStatus);
+app.post('/motion/restart', motion.motionRestart);
+app.post('/motion/config/get', motion.getConfig);
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });

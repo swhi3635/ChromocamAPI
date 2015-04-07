@@ -22,20 +22,20 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
 ###File Methods
 
-####GetFileList
+####Get File List
 
 - **Method:** GET
 - **Input:** None
 - **Location:** /files
 - **Output:** JSON array of objects containing metadata for each event
 
-####GetFile
+####Get File
 - **Method:** GET
 - **Input:** None
 - **Location:** /files/[id]
 - **Output:** JPEG image corresponding to [id]
 
-####SetArchiveFlag
+####Set Archive Flag
 - **Method:** POST
 - **Location:** /files/[id]/setArchive
 - **Input:** JSON Object
@@ -47,7 +47,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
 ###Device Methods
 
-####RegisterDevice
+####Register Device
 - **Method:** POST
 - **Location:** /devices/register
 - **Input:** JSON Object
@@ -57,7 +57,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
   `[{"device_id":23,"enabled":1,"token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}]`
 
-####GetNotificationFlag
+####Get Notification Flag
 - **Method:** POST
 - **Location:** /devices/notifications/get
 - **Input:** JSON Object
@@ -65,7 +65,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
 - **Output:** 1 or 0 (enabled or disabled)
 
-####SetNotificationFlag
+####Set Notification Flag
 - **Method:** POST
 - **Location:** /devices/notifications/set
 - **Input:** JSON Object
@@ -77,7 +77,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
 ###Motion Configuration Methods
 
-####GetDetectionStatus
+####Get Detection Status
 - **Method:** POST
 - **Location:** /motion/detection/getStatus
 - **Input:** JSON Object
@@ -87,7 +87,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
   `{"status":true}`
 
-####SetDetectionStatus
+####Set Detection Status
 - **Method:** POST
 - **Location:** /motion/detection/setStatus
 - **Input:** JSON Object
@@ -95,3 +95,21 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 - **Output:** JSON Object
 
   `{"success":true}`
+
+####Restart Motion
+- **Method:** POST
+- **Location:** /motion/restart
+- **Input:** JSON Object
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
+- **Output:** JSON Object
+
+  `{"success":true}`
+
+####Get Config Value
+- **Method:** POST
+- **Location:** /motion/config/get
+- **Input:** JSON Object
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","query":"framerate"}`
+- **Output:** JSON Object
+
+  `{"framerate": "2"}`

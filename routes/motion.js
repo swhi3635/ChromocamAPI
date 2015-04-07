@@ -118,3 +118,79 @@ exports.setDetectionStatus = function(req, res) {
     });
 
 };
+
+// Function: motionRestart
+// Restart motion application
+exports.motionRestart = function(req, res) {
+
+  // set request parameters
+  var options = {baseUrl: motionURL, uri: "/action/restart", method: "GET"};
+
+  // make request
+  motionRequest(req, options, function(err, body) {
+    if(err) { res.status(500).send("Server Error"); return; }
+
+    // default response is false (detection not active)
+    var resp = { "success" : false };
+
+    // detection status is active, set response accordingly
+    if(body.indexOf("Done") > -1) {
+      resp.success = true;
+    }
+
+    // send response
+    res.json(resp);
+
+  });
+
+};
+
+// Function: getConfig
+// Gets values for specified config options
+exports.getConfig = function(req, res) {
+
+  // query = config option you want to get the value of
+  var query = req.body.query;
+
+  // config options that user is allow to check
+  var allowedQueries = [ "width","height","framerate","threshold","area_detect"];
+
+  // make sure query is allowed
+  if(allowedQueries.indexOf(query) == -1){
+    res.status(400).send("Bad request");
+    return;
+  }
+
+  // query to be included in GET request
+  var queryString = { "query" : query };
+
+  // set request parameters
+  var options = {baseUrl: motionURL, uri: "/config/get", qs: queryString, method: "GET"};
+
+  // make request
+  motionRequest(req, options, function(err, body) {
+    if(err) { res.status(500).send("Server Error"); return; }
+
+    var resp = {};
+
+    // check motion's response - make sure
+    if(body.indexOf("Done") == -1) {
+      res.status(500).send("Server error");
+      return;
+    }
+
+    //format motion's response to JSON object
+    var equals = body.indexOf(" =");
+    var done = body.indexOf("\nDone\n");
+
+    var key = body.substring(0,equals);
+    var value = body.substring(equals + 3, done);
+
+    resp[key] = value;
+
+    // send response
+    res.json(resp);
+
+  });
+
+};
