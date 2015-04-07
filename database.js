@@ -32,7 +32,7 @@ exports.getFile = function(fileId, callback){
 exports.getFileList = function(callback){
 
   // SQL statement
-  var sql = 'SELECT event_id,time_stamp,file_type,archive FROM event';
+  var sql = 'SELECT event_id,time_stamp,file_type,archive FROM event ORDER BY event_id DESC';
   var args = [];
 
   selectRows(sql, args, callback);

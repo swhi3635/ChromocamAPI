@@ -27,6 +27,7 @@ app.use(bodyParser.json());
 // Grab route scripts
 var files = require('./routes/files');
 var devices = require('./routes/devices');
+var motion = require('./routes/motion');
 
 // Set routes
 app.get('/files', files.findAllFiles);
@@ -35,6 +36,7 @@ app.post('/files/:id/setArchive', files.setArchiveFlag);
 app.post('/devices/register', devices.registerDevice);
 app.post('/devices/notifications/get', devices.getNotificationFlag);
 app.post('/devices/notifications/set', devices.setNotificationFlag);
+app.post('/motion/detection/getStatus', motion.getDetectionStatus);
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });

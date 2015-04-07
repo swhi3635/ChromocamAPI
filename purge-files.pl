@@ -21,7 +21,8 @@ my $dsn = "DBI:mysql:database=$database;host=$host;port=$port";
 my $dbh = DBI->connect($dsn, $user, $pass, {'RaiseError' => 1});
 
 # now retrieve data from the table.
-my $sth = $dbh->prepare("SELECT filename FROM event WHERE archive=0") || die "Error:" . $dbh->errstr . "\n";
+# query: get filenames for images created over 1 week ago
+my $sth = $dbh->prepare("SELECT filename FROM event WHERE archive=0 AND time_stamp <= (NOW() - INTERVAL 1 WEEK)") || die "Error:" . $dbh->errstr . "\n";
 $sth->execute() || die "Error:" . $dbh->errstr . "\n";
 
 # add each record to list of files to be deleted
