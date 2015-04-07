@@ -105,7 +105,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
   `{"success":true}`
 
-####Restart Motion
+####Take Snapshot
 - **Method:** POST
 - **Location:** /motion/snapshot
 - **Input:** JSON Object
