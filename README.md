@@ -73,7 +73,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","enabled":"1"}`
 - **Output:** JSON Object
 
-  `{"affectedRows":"1"}`
+  `{"affectedRows":1}`
 
 ###Motion Configuration Methods
 
@@ -85,4 +85,13 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
 - **Output:** JSON Object
 
-  `{"status":"1"}`
+  `{"status":true}`
+
+####SetDetectionStatus
+- **Method:** POST
+- **Location:** /motion/detection/setStatus
+- **Input:** JSON Object
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","action":"pause"}`
+- **Output:** JSON Object
+
+  `{"success":true}`

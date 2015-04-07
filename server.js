@@ -19,6 +19,8 @@ var options = {
 
 // Set up app
 var app = express();
+
+// JSON parser
 app.use(bodyParser.urlencoded({
   extended: true
 }));

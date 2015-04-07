@@ -85,7 +85,10 @@ exports.setDetectionStatus = function(req, res) {
 
     // pause detection
     } else if ( action == "pause" || action == "stop" ){
+
+      // URI = /detection/pause
       requestURI += "pause";
+
       substr = "Detection paused";
 
     } else {
@@ -94,17 +97,22 @@ exports.setDetectionStatus = function(req, res) {
 
     }
 
+    // set request parameters
     var options = {baseUrl: motionURL, uri: requestURI, method: "GET"};
 
+    // make request
     motionRequest(req, options, function(err, body) {
       if(err) { res.status(500).send("Server Error"); return; }
 
+      // default response
       var resp = { "success" : false };
 
+      // check if motion reports detection resumed
       if(body.indexOf(substr) > -1) {
         resp.success = true;
       }
 
+      // send response
       res.json(resp);
 
     });
