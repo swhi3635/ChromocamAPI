@@ -61,7 +61,7 @@ exports.isDeviceRegistered = function(deviceId, deviceToken, callback){
 
   selectRows(sql, args, callback);
 
-}
+};
 
 // Query: getDeviceInfo
 // Grabs device information for given id from device table
@@ -119,4 +119,4 @@ function selectRows(sql, args, callback){
     });
 
   });
-};
+}

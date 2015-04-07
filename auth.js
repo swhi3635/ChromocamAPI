@@ -17,10 +17,10 @@ exports.authenticateDevice = function(deviceId, deviceToken, callback) {
 
     // Check if results are empty
     if(Object.keys(results).length) {
-      console.log("auth success");
+      console.log("auth success, device id: " . deviceID);
       callback(false, true);
     } else {
-      console.log("auth fail");
+      console.log("auth fail, device id: " . deviceID);
       callback(false, false);
     }
   });

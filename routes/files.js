@@ -30,7 +30,7 @@ exports.findFileById = function(req, res) {
       if(err) { res.status(500).send("Server Error"); return; }
 
       //Empty object -- no metadata exists, invalid id
-      if(Object.keys(results).length == 0){
+      if(Object.keys(results).length === 0){
         res.status(404).send("File not found");
         console.log('Invalid object');
         return;
@@ -38,21 +38,24 @@ exports.findFileById = function(req, res) {
 
       //Read image into memory
       try {
-        var img = fs.readFileSync(results[0]['filename']);
+        var img = fs.readFileSync(results[0].filename);
+
+        //Show image in browser
+        res.writeHead(200, {'Content-Type' : 'image/jpeg'});
+        res.end(img, 'binary');
+
       } catch(e) {
         //If file doesn't exist
         if(e.code == 'ENOENT') {
           res.status(404).send("File not found");
-          console.log('File' + results[0]['filename'] + ' not found!');
+          console.log('File' + results[0].filename + ' not found!');
           return;
         } else {
           throw e;
         }
       }
 
-      //Show image in browser
-      res.writeHead(200, {'Content-Type' : 'image/jpeg'});
-      res.end(img, 'binary');
+
 
     });
 };
@@ -62,10 +65,10 @@ exports.findFileById = function(req, res) {
 exports.setArchiveFlag = function(req,res) {
 
     // Get device credentials
-    var deviceToken = req.body['token'];
-    var deviceId = req.body['id'];
+    var deviceToken = req.body.token;
+    var deviceId = req.body.id;
     var eventId = req.params.id;
-    var flag = req.body['archive'];
+    var flag = req.body.archive;
 
     // Authenticate device
     auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
@@ -76,7 +79,7 @@ exports.setArchiveFlag = function(req,res) {
       db.setArchive(eventId, flag, function(err, results){
         if(err) { res.status(500).send("Server Error"); return; }
 
-        var resp = { "affectedRows" : results['affectedRows'] }
+        var resp = { "affectedRows" : results.affectedRows };
         res.send(resp);
 
       });

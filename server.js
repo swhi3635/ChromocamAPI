@@ -15,7 +15,7 @@ var fs = require('fs');
 var options = {
 	key: fs.readFileSync('./keys/server.key'),
 	cert: fs.readFileSync('./keys/server.crt')
-}
+};
 
 // Set up app
 var app = express();
@@ -37,11 +37,12 @@ app.post('/devices/register', devices.registerDevice);
 app.post('/devices/notifications/get', devices.getNotificationFlag);
 app.post('/devices/notifications/set', devices.setNotificationFlag);
 app.post('/motion/detection/getStatus', motion.getDetectionStatus);
+app.post('/motion/detection/setStatus', motion.setDetectionStatus);
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });
 
 // Start HTTP server
 //https.createServer(options, app).listen(3000)
-http.createServer(app).listen(3000)
+http.createServer(app).listen(3000);
 console.log('Listening on port 3000...');

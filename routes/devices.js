@@ -15,22 +15,22 @@ function getMasterHash() {
   var masterPassword = process.env.CC_PASS;
   shasum.update(masterPassword);
   return shasum.digest('hex');
-};
+}
 
 // Function: generateDeviceHash
 // Generates new hash to be used as a token for device to use with future API calls
 function generateDeviceHash() {
   var shasum = crypto.createHash('sha1');
   shasum.update( process.hrtime() + getMasterHash());
-  return shasum.digest('hex')
-};
+  return shasum.digest('hex');
+}
 
 // Function: registerDevice
 // Take in hashed password (JSON object), check against system's hashed master password
 // Return unique device token to use for future API calls
 exports.registerDevice = function(req,res) {
 
-  var userHash = req.body['hashedPass'];
+  var userHash = req.body.hashedPass;
 
   // Compare user-submitted password hash to master password hash
   if (userHash == getMasterHash()){
@@ -63,8 +63,8 @@ exports.registerDevice = function(req,res) {
 exports.getNotificationFlag = function(req,res) {
 
   // Get device credentials
-  var deviceToken = req.body['token'];
-  var deviceId = req.body['id'];
+  var deviceToken = req.body.token;
+  var deviceId = req.body.id;
 
   // Authenticate device
   auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
@@ -76,7 +76,7 @@ exports.getNotificationFlag = function(req,res) {
       if(err) { res.status(500).send("Server Error"); return; }
 
       // Send response - flag: true or false
-      res.json(results[0]['enabled']);
+      res.json(results[0].enabled);
 
     });
   });
@@ -88,9 +88,9 @@ exports.getNotificationFlag = function(req,res) {
 exports.setNotificationFlag = function(req, res) {
 
   // Get device credentials
-  var deviceToken = req.body['token'];
-  var deviceId = req.body['id'];
-  var flag = req.body['flag'];
+  var deviceToken = req.body.token;
+  var deviceId = req.body.id;
+  var flag = req.body.flag;
 
   // Authenticate device
   auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
@@ -101,7 +101,7 @@ exports.setNotificationFlag = function(req, res) {
     db.setNotifications(deviceId, flag, function(err, results){
       if(err) { res.status(500).send("Server Error"); return; }
 
-      var resp = { "affectedRows" : results['affectedRows'] }
+      var resp = { "affectedRows" : results.affectedRows };
       res.send(resp);
 
     });
