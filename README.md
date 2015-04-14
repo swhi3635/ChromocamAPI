@@ -131,3 +131,10 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 - **Output:** JSON Object
 
   `{"success": true}`
+
+####Live Stream
+- **Method:** POST
+- **Location:** /stream
+- **Input:** JSON Object
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
+- **Output:** MJPEG Stream

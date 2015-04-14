@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var fs = require('fs');
 var MjpegProxy = require('./mjpeg-proxy-custom').MjpegProxy;
-var MjpegProxy2 = require('mjpeg-proxy').MjpegProxy;
+var MjpegProxy2 = require('mjpeg-proxy').MjpegProxy; // temporary un-authenticated stream for testing
 
 // HTTPS certificates
 var options = {
@@ -48,7 +48,7 @@ app.post('/motion/config/get', motion.getConfig);
 app.post('/motion/config/set', motion.setConfig);
 app.post('/motion/snapshot', motion.takeSnapshot);
 app.post('/stream', new MjpegProxy('http://localhost:8081/').proxyRequest);
-app.get('/stream2', new MjpegProxy2('http://localhost:8081/').proxyRequest);
+app.get('/stream2', new MjpegProxy2('http://localhost:8081/').proxyRequest); // temporary, un-authenticated stream for testing
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });
