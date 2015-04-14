@@ -22,7 +22,7 @@ exports.findAllFiles = function(req, res) {
 };
 
 // Function: findFileById
-// Get file metadata for given fileId, return corresponding jpeg image
+// Get file metadata for given fileId, return corresponding image or video
 exports.findFileById = function(req, res) {
 
     //Get file metadata results from database query
@@ -36,12 +36,19 @@ exports.findFileById = function(req, res) {
         return;
       }
 
-      //Read image into memory
+      //Read file into memory
       try {
         var img = fs.readFileSync(results[0].filename);
 
         //Show image in browser
-        res.writeHead(200, {'Content-Type' : 'image/jpeg'});
+        if (results[0].file_type === 8) {
+          //avi file
+          res.writeHead(200, {'Content-Type' : 'video/x-msvideo'});
+        } else {
+          //jpeg image
+          res.writeHead(200, {'Content-Type' : 'image/jpeg'});
+        }
+
         res.end(img, 'binary');
 
       } catch(e) {

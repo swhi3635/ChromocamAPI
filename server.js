@@ -32,7 +32,6 @@ app.use(bodyParser.json());
 var files = require('./routes/files');
 var devices = require('./routes/devices');
 var motion = require('./routes/motion');
-var stream = require('./routes/stream');
 
 // Set routes
 app.get('/files', files.findAllFiles);
