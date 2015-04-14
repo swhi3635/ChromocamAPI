@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 //var https = require('https');
 var http = require('http');
 var fs = require('fs');
+var MjpegProxy = require('./mjpeg-proxy-custom').MjpegProxy;
+var MjpegProxy2 = require('mjpeg-proxy').MjpegProxy;
 
 // HTTPS certificates
 var options = {
@@ -30,6 +32,7 @@ app.use(bodyParser.json());
 var files = require('./routes/files');
 var devices = require('./routes/devices');
 var motion = require('./routes/motion');
+var stream = require('./routes/stream');
 
 // Set routes
 app.get('/files', files.findAllFiles);
@@ -44,6 +47,8 @@ app.post('/motion/restart', motion.motionRestart);
 app.post('/motion/config/get', motion.getConfig);
 app.post('/motion/config/set', motion.setConfig);
 app.post('/motion/snapshot', motion.takeSnapshot);
+app.post('/stream', new MjpegProxy('http://localhost:8081/').proxyRequest);
+app.get('/stream2', new MjpegProxy2('http://localhost:8081/').proxyRequest);
 app.get('/', function(req, res) {
   res.send('Hello world!');
 });
