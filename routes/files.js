@@ -43,7 +43,7 @@ exports.findFileById = function(req, res) {
         //Show image in browser
         if (results[0].file_type === 8) {
           //avi file
-          res.writeHead(200, {'Content-Type' : 'video/x-msvideo'});
+          res.writeHead(200, {'Content-Type' : 'video/mpeg'});
         } else {
           //jpeg image
           res.writeHead(200, {'Content-Type' : 'image/jpeg'});
