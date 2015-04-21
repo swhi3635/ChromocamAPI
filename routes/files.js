@@ -12,21 +12,44 @@ var auth = require('../auth');
 // Get metadata for all files, returns JSON objects containing metadata
 exports.findAllFiles = function(req, res) {
 
+  // Get device credentials
+  var deviceToken = req.body.token;
+  var deviceId = parseInt(req.body.id);
+  var offset = parseInt(req.body.offset);
+  var limit = parseInt(req.body.limit);
+  var archive = parseInt(req.body.archive);
+
+  // Authenticate device
+  auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
+    // If credentials are invalid, send 403
+    if(!results) { res.status(403).send("Forbidden"); return; }
+
     // Get metadata for all files from database
-    db.getFileList(function(err, results){
+    db.getFileList(offset, archive, limit, function(err, results){
       if(err) { res.status(500).send("Server Error"); return; }
 
       // Print JSON object
       res.send(results);
     });
+  });
 };
 
 // Function: findFileById
 // Get file metadata for given fileId, return corresponding image or video
 exports.findFileById = function(req, res) {
 
+  // Get device credentials
+  var deviceToken = req.body.token;
+  var deviceId = parseInt(req.body.id);
+  var eventId = parseInt(req.params.id);
+
+  // Authenticate device
+  auth.authenticateDevice(deviceId, deviceToken, function(err, results) {
+    // If credentials are invalid, send 403
+    if(!results) { res.status(403).send("Forbidden"); return; }
+
     //Get file metadata results from database query
-    db.getFile(req.params.id, function(err, results){
+    db.getFile(eventId, function(err, results){
       if(err) { res.status(500).send("Server Error"); return; }
 
       //Empty object -- no metadata exists, invalid id
@@ -63,8 +86,8 @@ exports.findFileById = function(req, res) {
       }
 
 
-
     });
+  });
 };
 
 // Function: setArchiveFlag
@@ -73,9 +96,9 @@ exports.setArchiveFlag = function(req,res) {
 
     // Get device credentials
     var deviceToken = req.body.token;
-    var deviceId = req.body.id;
-    var eventId = req.params.id;
-    var flag = req.body.archive;
+    var deviceId = parseInt(req.body.id);
+    var eventId = parseInt(req.params.id);
+    var flag = parseInt(req.body.archive);
 
     // Authenticate device
     auth.authenticateDevice(deviceId, deviceToken, function(err, results) {

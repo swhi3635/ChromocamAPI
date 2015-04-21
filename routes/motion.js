@@ -17,7 +17,7 @@ var motionURL = "http://localhost:8080/0/";
 function motionRequest(req, options, callback) {
   // Get device credentials
   var deviceToken = req.body.token;
-  var deviceId = req.body.id;
+  var deviceId = parseInt(req.body.id);
 
   // Authenticate device
   auth.authenticateDevice(deviceId, deviceToken, function(err, results) {

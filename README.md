@@ -24,14 +24,18 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 
 ####Get File List
 
-- **Method:** GET
-- **Input:** None
+- **Method:** POST
+- **Input:** JSON Object
+
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","offset":"20","archive":"1","limit":"10"}`
 - **Location:** /files
 - **Output:** JSON array of objects containing metadata for each event
 
 ####Get File
-- **Method:** GET
-- **Input:** None
+- **Method:** POST
+- **Input:** JSON Object
+
+  `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}`
 - **Location:** /files/[id]
 - **Output:** JPEG image corresponding to [id]
 

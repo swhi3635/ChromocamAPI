@@ -39,11 +39,12 @@ foreach my $file ( @goners ) {
   # delete file
   unlink $file or warn "Could not unlink $file: $!";
 
-  # remove record from database
-  my $sth = $dbh->prepare("DELETE FROM event WHERE filename=\"$file\"") || die "Error:" . $dbh->errstr . "\n";
-  $sth->execute() || die "Error:" . $dbh->errstr . "\n";
-  $sth->finish();
 }
+
+# remove records from database
+$sth = $dbh->prepare("DELETE filename FROM event WHERE archive=0 AND time_stamp <= (NOW() - INTERVAL 1 WEEK)") || die "Error:" . $dbh->errstr . "\n";
+$sth->execute() || die "Error:" . $dbh->errstr . "\n";
+$sth->finish();
 
 # Disconnect from the database.
 $dbh->disconnect();

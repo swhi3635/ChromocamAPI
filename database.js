@@ -29,11 +29,11 @@ exports.getFile = function(fileId, callback){
 
 // Query: getFileList
 // Get metadata for all images (events)
-exports.getFileList = function(callback){
+exports.getFileList = function(offset, archive, limit, callback){
 
   // SQL statement
-  var sql = 'SELECT event_id,time_stamp,file_type,archive FROM event ORDER BY event_id DESC';
-  var args = [];
+  var sql = 'SELECT event_id,time_stamp,file_type,archive FROM event WHERE event_id <= ((SELECT MAX(event_id) FROM event) - ?) AND archive = ? ORDER BY event_id DESC LIMIT ?';
+  var args = [offset,archive,limit];
 
   selectRows(sql, args, callback);
 
