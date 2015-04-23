@@ -9,6 +9,7 @@
         "body-parser": "1.12.x",
         "request": "2.55.x",
         "mjpeg-proxy": "0.1.x",
-        "buffertools": "^2.1.2"
+        "buffertools": "^2.1.2",
+        "node-gcm": "0.9.x"
     }
-}
+} 
