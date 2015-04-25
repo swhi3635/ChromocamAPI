@@ -16,7 +16,13 @@ You will need to set some environment variables when executing this Node.JS appl
 Here's a sample startup script:
 ```bash
 #!/bin/bash
-CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER='dbuser' MYSQL_PASS='password' node server
+CC_PASS='masterpassword' \
+MYSQL_HOST='localhost' \
+MYSQL_DB='chromocam' \
+MYSQL_USER='dbuser' \
+MYSQL_PASS='password' \
+GCM_SENDER='GCM-Sender-Key' \
+node server
 ```
 ##API Documentation
 
