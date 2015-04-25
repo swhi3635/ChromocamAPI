@@ -48,8 +48,7 @@ app.post('/motion/config/get', motion.getConfig);
 app.post('/motion/config/set', motion.setConfig);
 app.post('/motion/snapshot', motion.takeSnapshot);
 app.post('/stream', new MjpegProxy('http://localhost:8081/').proxyRequest);
-app.get('/stream2', new MjpegProxy2('http://localhost:8081/').proxyRequest); // temporary, un-authenticated stream for testing
-app.get('/pushtest', push.pushTest);
+app.get('/stream2', new MjpegProxy2('http://localhost:8081/').proxyRequest); // temporary, un-authenticated stream for testing;
 app.get('/notify', push.notify);
 app.get('/', function(req, res) {
   res.send('Hello world!');

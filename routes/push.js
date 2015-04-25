@@ -1,16 +1,15 @@
 var db = require('../database');
 var gcm = require('node-gcm');
-var extend = require('util')._extend;
 
 
 // Function: notify
 // Send push notification to devices when an event occurs
 exports.notify = function(req, res) {
 
-  if(req.connection.remoteAddress != '127.0.0.1') {
-    res.status(403).send("Forbidden");
-    return;
-  }
+  // if(req.connection.remoteAddress != '127.0.0.1') {
+  //   res.status(403).send("Forbidden");
+  //   return;
+  // }
 
 
   // Get GCM registration IDs for devices that have notifications enabled
@@ -25,6 +24,8 @@ exports.notify = function(req, res) {
       registrationIds.push(device.regId);
     }
 
+    var d = new Date();
+
     // Set up new push message
     var message = new gcm.Message({
       collapseKey: 'demo',
@@ -32,7 +33,8 @@ exports.notify = function(req, res) {
       timeToLive: 3,
       //dryRun: true,
       data: {
-        event_id: results[0].event_id
+        event_id: results[0].event_id,
+        time: d.getTime()
       }
     });
 
@@ -43,7 +45,7 @@ exports.notify = function(req, res) {
       else    console.log(result);
     });
 
-    res.send("id: " + results[0].event_id);
+    res.send("success?");
 
   });
 
