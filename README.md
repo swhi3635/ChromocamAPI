@@ -56,7 +56,7 @@ CC_PASS='masterpassword' MYSQL_HOST='localhost' MYSQL_DB='chromocam' MYSQL_USER=
 - **Location:** /devices/register
 - **Input:** JSON Object
 
-  `{"hashedPass":"3da541559918a808c2402bba5012f6c60b27661c"}`
+  `{"hashedPass":"3da541559918a808c2402bba5012f6c60b27661c","gcmId":"25jh2lkj7mnb3m1cnkj5hlk7j62"}`
 - **Output:** JSON Object
 
   `[{"device_id":23,"enabled":1,"token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}]`

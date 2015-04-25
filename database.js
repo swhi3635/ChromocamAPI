@@ -53,11 +53,11 @@ exports.getLatestSnapshot = function(callback){
 
 // Query: addDevice
 // Insert new device in device table
-exports.addDevice = function(deviceHash, callback){
+exports.addDevice = function(deviceHash, gcmId, callback){
 
   //SQL statement
   var sql = 'INSERT INTO device SET ?';
-  var args = [{token:deviceHash,enabled:1}];
+  var args = [{token:deviceHash,enabled:1,regId:gcmId}];
 
   selectRows(sql, args, callback);
 
@@ -106,6 +106,18 @@ exports.setArchive = function(deviceId, flag, callback) {
   //SQL statement
   var sql = 'UPDATE event SET archive = ? WHERE event_id = ?';
   var args = [flag,deviceId];
+
+  selectRows(sql, args, callback);
+
+};
+
+// Query: getEnabledDevices
+// Returns GCM registration IDs for all devices that have notifications enabled
+exports.getEnabledDevices = function(callback) {
+
+  //SQL statement
+  var sql = 'SELECT DISTINCT(device.regId) as regId, event_id FROM device, (SELECT MAX(event_id) AS event_id FROM event) AS event WHERE enabled = 1 and regId IS NOT NULL';
+  var args = [];
 
   selectRows(sql, args, callback);
 

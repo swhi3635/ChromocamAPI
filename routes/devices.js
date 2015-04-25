@@ -31,6 +31,9 @@ function generateDeviceHash() {
 exports.registerDevice = function(req,res) {
 
   var userHash = req.body.hashedPass;
+  var regId = req.body.gcmId; // GCM registration ID for push notifications
+
+  console.log(regId);
 
   // Compare user-submitted password hash to master password hash
   if (userHash == getMasterHash()){
@@ -40,7 +43,7 @@ exports.registerDevice = function(req,res) {
     console.log("generated device token: " + deviceHash);
 
     // Add device to database
-    db.addDevice(deviceHash, function(err, results){
+    db.addDevice(deviceHash, regId, function(err, results){
       if(err) { res.status(500).send("Server Error"); return; }
 
       // Get device info that was inserted and return it
