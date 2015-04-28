@@ -19,6 +19,8 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+// Modified by Sam Whitney for Chromocam Web API Project
+
 var url = require('url');
 var http = require('http');
 var auth = require('./auth');

@@ -1,5 +1,10 @@
 #!/usr/bin/perl
 
+# File: purge-files.pl
+# Description: Batch script to delete old files created by motion
+# Authors: Sam Whitney
+# Project: Chromocam web API
+
 use strict;
 use warnings;
 use DBI;

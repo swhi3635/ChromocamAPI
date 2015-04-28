@@ -1,7 +1,7 @@
 
  # File: door.py
  # Description: Pause/resume motion detection when someone leaves the house
- # Authors: Sam Whitney, Aleks Sverdlovs
+ # Authors: Sam Whitney
  # Project: Chromocam web API
 
 import time

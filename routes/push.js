@@ -1,3 +1,9 @@
+/*
+ * File: push.js
+ * Authors: Sam Whitney
+ * Project: Chromocam web API
+ */
+
 var db = require('../database');
 var gcm = require('node-gcm');
 
