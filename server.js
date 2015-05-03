@@ -7,16 +7,19 @@
 // Load modules
 var express = require('express');
 var bodyParser = require('body-parser');
-//var https = require('https');
-var http = require('http');
+var https = require('https');
+//var http = require('http');
 var fs = require('fs');
 var MjpegProxy = require('./mjpeg-proxy-custom').MjpegProxy;
 var MjpegProxy2 = require('mjpeg-proxy').MjpegProxy; // temporary un-authenticated stream for testing
 
 // HTTPS certificates
 var options = {
-	key: fs.readFileSync('./keys/server.key'),
-	cert: fs.readFileSync('./keys/server.crt')
+	key: fs.readFileSync('./keys/private.key'),
+	cert: fs.readFileSync('./keys/ssl.crt'),
+	ca: [
+		fs.readFileSync('./keys/sub.class1.server.ca.pem')
+	]
 };
 
 // Set up app
@@ -55,6 +58,6 @@ app.get('/', function(req, res) {
 });
 
 // Start HTTP server
-//https.createServer(options, app).listen(3000)
-http.createServer(app).listen(3000);
+https.createServer(options, app).listen(3000);
+//http.createServer(app).listen(3000);
 console.log('Listening on port 3000...');
