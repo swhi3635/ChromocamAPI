@@ -23,11 +23,13 @@ exports.notify = function(req, res) {
     if(err) { console.log(err); res.status(500).send("Server Error"); return; }
 
     var registrationIds = [];
+    var deviceIds = [];
 
     // Put regIds into an array
     for (var i = 0; i < results.length; i++) {
       var device = results[i];
       registrationIds.push(device.regId);
+      deviceIds.push([device.device_id, results[0].event_id]);
     }
 
     var d = new Date();
@@ -51,7 +53,14 @@ exports.notify = function(req, res) {
       else    console.log(result);
     });
 
-    res.send("success?");
+    db.logNotification(deviceIds, function(err, results) {
+      if(err) { console.log(err); res.status(500).send("Server Error"); return; }
+
+      //console.log(deviceIds);
+      res.send("success");
+    });
+
+
 
   });
 

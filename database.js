@@ -116,11 +116,23 @@ exports.setArchive = function(deviceId, flag, callback) {
 exports.getEnabledDevices = function(callback) {
 
   //SQL statement
-  var sql = 'SELECT DISTINCT(device.regId) as regId, event_id FROM device, (SELECT MAX(event_id) AS event_id FROM event) AS event WHERE enabled = 1 and regId IS NOT NULL';
+  var sql = 'SELECT DISTINCT(device.regId) as regId, device.device_id, event_id FROM device, (SELECT MAX(event_id) AS event_id FROM event) AS event WHERE enabled = 1 and regId IS NOT NULL';
   var args = [];
 
   selectRows(sql, args, callback);
 
+};
+
+
+// Query: logNotification
+// Adds a record that a notification was sent to a device for an event
+exports.logNotification = function(devices, callback) {
+
+  //SQL statement
+  var sql = 'INSERT INTO notification_log (device_id, event_id) VALUES ?';
+  //var args = [{device_id:deviceId,event_id:eventId}];
+
+  insertRows(sql, devices, callback);
 };
 
 // Function: selectRows
@@ -134,6 +146,28 @@ function selectRows(sql, args, callback){
 
     // Execute query
     connection.query(sql, args, function(err, results){
+      if(err){ console.error(err); callback(true); return; }
+
+      // Release connection back to pool
+      connection.release();
+      console.log('connection released.');
+      callback(false, results);
+    });
+
+  });
+}
+
+// Function: insertRows
+// Returns rows after running specified SQL query
+function insertRows(sql, args, callback){
+  // Claim connection from pool
+  pool.getConnection(function(err, connection){
+    if(err){ console.error(err); callback(true); return; }
+
+    console.log('connected with id ' + connection.threadId);
+
+    // Execute query
+    connection.query(sql, [args], function(err, results){
       if(err){ console.error(err); callback(true); return; }
 
       // Release connection back to pool
