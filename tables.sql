@@ -1,0 +1,29 @@
+DROP TABLE IF EXISTS notification_log;
+DROP TABLE IF EXISTS device;
+DROP TABLE IF EXISTS event;
+
+CREATE TABLE device (
+	device_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	enabled TINYINT(1) NOT NULL,
+	token CHAR(40),
+	regId TEXT
+) ENGINE=INNODB;
+
+CREATE TABLE event (
+	event_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	time_stamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	filename VARCHAR(100) NOT NULL,
+	file_type TINYINT(1) NOT NULL,
+	archive TINYINT(1) NOT NULL
+) ENGINE=INNODB;
+
+CREATE TABLE notification_log (
+	log_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	event_id INT NOT NULL,
+	device_id INT NOT NULL,
+	FOREIGN KEY (device_id)
+		REFERENCES device(device_id),
+	FOREIGN KEY (event_id)
+		REFERENCES event(event_id),
+	time_stamp TIMESTAMP NOT NULL
+) ENGINE=INNODB;
