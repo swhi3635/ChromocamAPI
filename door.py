@@ -24,11 +24,11 @@ while True:
     if(door_open == True and door_open_prev == False):
         # Pause detection when door is opened
         urllib2.urlopen("http://localhost:8080/0/detection/pause").read()
+        print("detection paused")
     # On door close
     elif(door_open == False and door_open_prev == True):
         # Wait 10 seconds, then start detection
         time.sleep(10)
         urllib2.urlopen("http://localhost:8080/0/detection/start").read()
-    else:
-        print("No change")
+        print("detection resumed")
     time.sleep(0.5)
