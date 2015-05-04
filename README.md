@@ -62,7 +62,7 @@ node server
 - **Location:** /devices/register
 - **Input:** JSON Object
 
-  `{"hashedPass":"3da541559918a808c2402bba5012f6c60b27661c","gcmId":"25jh2lkj7mnb3m1cnkj5hlk7j62"}`
+  `{"hashedPass":"3da541559918a808c2402bba5012f6c60b27661c"}`
 - **Output:** JSON Object
 
   `[{"device_id":23,"enabled":1,"token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5"}]`
@@ -81,6 +81,17 @@ node server
 - **Input:** JSON Object
 
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","enabled":"1"}`
+- **Output:** JSON Object
+
+  `{"affectedRows":1}`
+
+####Set Push Token
+- **Method:** POST
+- **Location:** /devices/notifications/setToken
+- **Input:** JSON Object
+
+`{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","gcmId":"25jh2lkj7mnb3m1cnkj5hlk7j62"}`
+
 - **Output:** JSON Object
 
   `{"affectedRows":1}`
@@ -129,15 +140,17 @@ node server
 - **Location:** /motion/config/get
 - **Input:** JSON Object
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","option":"framerate"}`
+- **Valid config options**: "width", "height", "framerate", "threshold", "area_detect"
 - **Output:** JSON Object
 
   `{"option": "framerate", "value": "2"}`
 
 ####Set Config Value
 - **Method:** POST
-- **Location:** /motion/config/get
+- **Location:** /motion/config/set
 - **Input:** JSON Object
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","option":"framerate", "value":"3"}`
+- **Valid config options**: "width", "height", "framerate", "threshold", "area_detect"
 - **Output:** JSON Object
 
   `{"success": true}`

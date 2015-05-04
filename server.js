@@ -44,6 +44,7 @@ app.post('/files/:id/setArchive', files.setArchiveFlag);
 app.post('/devices/register', devices.registerDevice);
 app.post('/devices/notifications/get', devices.getNotificationFlag);
 app.post('/devices/notifications/set', devices.setNotificationFlag);
+app.post('/devices/notifications/setToken', devices.setPushToken);
 app.post('/motion/detection/getStatus', motion.getDetectionStatus);
 app.post('/motion/detection/setStatus', motion.setDetectionStatus);
 app.post('/motion/restart', motion.motionRestart);
