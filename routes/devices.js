@@ -90,7 +90,7 @@ exports.setNotificationFlag = function(req, res) {
   // Get device credentials
   var deviceToken = req.body.token;
   var deviceId = parseInt(req.body.id);
-  var flag = parseInt(req.body.flag);
+  var flag = parseInt(req.body.enabled);
 
   // Authenticate device
   auth.authenticateDevice(deviceId, deviceToken, function(err, results) {

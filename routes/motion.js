@@ -39,6 +39,7 @@ function motionRequest(req, options, callback) {
   });
 }
 
+
 // Function: getDetectionStatus
 // See if motion detection is enabled/disabled
 exports.getDetectionStatus = function(req, res) {
@@ -236,7 +237,7 @@ exports.setConfig = function(req, res) {
   }
 
   // config options that user is allow to check
-  var allowedQueries = [ "width","height","framerate","threshold","area_detect"];
+  var allowedQueries = [ "width","height","framerate","threshold","area_detect", "gap"];
 
   // make sure query is allowed
   if(allowedQueries.indexOf(query) == -1){
