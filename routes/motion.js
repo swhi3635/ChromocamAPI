@@ -179,7 +179,7 @@ exports.getConfig = function(req, res) {
   var query = req.body.option;
 
   // config options that user is allow to check
-  var allowedQueries = [ "width","height","framerate","threshold","area_detect"];
+  var allowedQueries = [ "width","height","framerate","threshold","area_detect","gap"];
 
   // make sure query is allowed
   if(allowedQueries.indexOf(query) == -1){

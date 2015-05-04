@@ -140,7 +140,7 @@ node server
 - **Location:** /motion/config/get
 - **Input:** JSON Object
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","option":"framerate"}`
-- **Valid config options**: "width", "height", "framerate", "threshold", "area_detect"
+- **Valid config options**: "width", "height", "framerate", "threshold", "area_detect", "gap" - [(more info)](http://www.lavrsen.dk/foswiki/bin/view/Motion/ConfigFileOptions#Options_in_Alphabetical_Order.)
 - **Output:** JSON Object
 
   `{"option": "framerate", "value": "2"}`
@@ -150,7 +150,7 @@ node server
 - **Location:** /motion/config/set
 - **Input:** JSON Object
   `{"id":"23","token":"439f2fae3241bd4b54396f18b1f71ab2851ea5c5","option":"framerate", "value":"3"}`
-- **Valid config options**: "width", "height", "framerate", "threshold", "area_detect"
+- **Valid config options**: "width", "height", "framerate", "threshold", "area_detect", "gap" - [(more info)](http://www.lavrsen.dk/foswiki/bin/view/Motion/ConfigFileOptions#Options_in_Alphabetical_Order.)
 - **Output:** JSON Object
 
   `{"success": true}`
